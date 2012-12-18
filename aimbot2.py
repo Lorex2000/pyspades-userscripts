@@ -135,7 +135,7 @@ def accuracy_player(player, name_info = True):
         shotgun_percent = 'None'
     s = ''
     if name_info:
-        s += player.name + ' has an accuracy of: '
+        s += player.name + ' ha una precisione di: '
     s += 'Rifle: %s SMG: %s Shotgun: %s.' % (rifle_percent, smg_percent, shotgun_percent)
     return s
 
@@ -147,12 +147,12 @@ def hackinfo(connection, name):
     return hackinfo_player(player)
 
 def hackinfo_player(player):
-    info = "%s #%s (%s) has an accuracy of: " % (player.name, player.player_id, player.address[0])
+    info = "%s #%s (%s) ha una precisione di: " % (player.name, player.player_id, player.address[0])
     info += accuracy_player(player, False)
     ratio = player.ratio_kills/float(max(1,player.ratio_deaths))
-    info += " Kill-death ratio of %.2f (%s kills, %s deaths)." % (ratio, player.ratio_kills, player.ratio_deaths)
-    info += " %i kills in the last %i seconds." % (player.get_kill_count(), KILL_TIME)
-    info += " %i headshot snaps in the last %i seconds." % (player.get_headshot_snap_count(), HEADSHOT_SNAP_TIME)
+    info += " Rapporto uccisioni-morti di %.2f (%s uccisioni, %s morti)." % (ratio, player.ratio_kills, player.ratio_deaths)
+    info += " %i uccisioni negli ultimi %i secondi." % (player.get_kill_count(), KILL_TIME)
+    info += " %i headshot colpi secchi negli ultimi %i secondi." % (player.get_headshot_snap_count(), HEADSHOT_SNAP_TIME)
     return info
 
 add(hackinfo)
@@ -161,7 +161,7 @@ def apply_script(protocol, connection, config):
     class Aimbot2Protocol(protocol):
         def start_votekick(self, payload):
             if aimbot_match(payload.reason):
-                payload.target.warn_admin('Hack related votekick.')
+                payload.target.warn_admin('Votekick relativo ad hack.')
             return protocol.start_votekick(self, payload)
 
     class Aimbot2Connection(connection):
@@ -179,7 +179,7 @@ def apply_script(protocol, connection, config):
             self.headshot_snap_warn_time = self.hit_percent_warn_time = 0.0
             self.kills_in_time_warn_time = self.multiple_bullets_warn_time = 0.0
 
-        def warn_admin(self, prefix = 'Possible aimbot detected.'):
+        def warn_admin(self, prefix = 'Possibile aimbot trovato.'):
             prefix += ' '
             message = hackinfo_player(self)
             for player in self.protocol.players.values():
@@ -234,10 +234,10 @@ def apply_script(protocol, connection, config):
                             self.headshot_snap_times.append(current_time)
                             if self.get_headshot_snap_count() >= HEADSHOT_SNAP_THRESHOLD:
                                 if HEADSHOT_SNAP == BAN:
-                                    self.ban('Aimbot detected - headshot snap', HEADSHOT_SNAP_BAN_DURATION)
+                                    self.ban('Aimbot trovato - headshot colpo secco', HEADSHOT_SNAP_BAN_DURATION)
                                     return
                                 elif HEADSHOT_SNAP == KICK:
-                                    self.kick('Aimbot detected - headshot snap')
+                                    self.kick('Aimbot trovato - headshot colpo secco')
                                     return
                                 elif HEADSHOT_SNAP == WARN_ADMIN:
                                     if (current_time - self.headshot_snap_warn_time) > WARN_INTERVAL_MINIMUM:
@@ -278,10 +278,10 @@ def apply_script(protocol, connection, config):
                     by.kill_times.append(reactor.seconds())
                     if by.get_kill_count() >= KILL_THRESHOLD:
                         if KILLS_IN_TIME == BAN:
-                            by.ban('Aimbot detected - kills in time window', KILLS_IN_TIME_BAN_DURATION)
+                            by.ban('Aimbot trovato - uccisioni nella finestra temporale', KILLS_IN_TIME_BAN_DURATION)
                             return
                         elif KILLS_IN_TIME == KICK:
-                            by.kick('Aimbot detected - kills in time window')
+                            by.kick('Aimbot trovato - uccisioni nella finestra temporale')
                             return
                         elif KILLS_IN_TIME == WARN_ADMIN:
                             current_time = reactor.seconds()
@@ -292,9 +292,9 @@ def apply_script(protocol, connection, config):
         
         def multiple_bullets_eject(self):
             if MULTIPLE_BULLETS == BAN:
-                self.ban('Aimbot detected - multiple bullets', MULTIPLE_BULLETS_BAN_DURATION)
+                self.ban('Aimbot trovato - proiettili multipli', MULTIPLE_BULLETS_BAN_DURATION)
             elif MULTIPLE_BULLETS == KICK:
-                self.kick('Aimbot detected - multiple bullets')
+                self.kick('Aimbot trovato - proiettili multipli')
             elif MULTIPLE_BULLETS == WARN_ADMIN:
                 current_time = reactor.seconds()
                 if (current_time - self.multiple_bullets_warn_time) > WARN_INTERVAL_MINIMUM:
@@ -336,7 +336,7 @@ def apply_script(protocol, connection, config):
             return connection.on_hit(self, hit_amount, hit_player, type, grenade)
         
         def hit_percent_eject(self, accuracy):
-            message = 'Aimbot detected - %i%% %s hit accuracy' %\
+            message = 'Aimbot trovato - %i%% %s colpi di precisione' %\
                       (100.0 * accuracy, self.weapon_object.name)
             if HIT_PERCENT == BAN:
                 self.ban(message, HIT_PERCENT_BAN_DURATION)
