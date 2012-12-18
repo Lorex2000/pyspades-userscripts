@@ -33,7 +33,7 @@ def aimbotcheck(connection, user, minutes):
     if connection not in connection.protocol.players:
         raise KeyError()
     kills = connection.tally_kill_log(reactor.seconds() - int(minutes)*60)
-    return ('Player %s did %s kills in the last %s minutes.' %
+    return ('Il giocatore %s ha fatto %s uccisioni negli ultimi %s minuti.' %
         (connection.name, kills, minutes))
 commands.add(aimbotcheck)
 
@@ -91,7 +91,7 @@ def apply_script(protocol, connection, config):
             if curtime < self.aimbot_kill_warn_last+self.aimbot_kill_warn_pause:
                 return
             self.aimbot_kill_warn_last = curtime
-            aimwarn = "AIMBOT WARNING: Player \"%s\" got %d kills in the last %d seconds!" % (
+            aimwarn = "PERICOLO AIMBOT: il giocatore \"%s\" ha fatto %d uccisioni negli ultimi %d secondi!" % (
                 self.name, self.tally_kill_log(self.aimbot_kill_time), self.aimbot_kill_time
                     )
             self.protocol.irc_say(aimwarn)
@@ -205,7 +205,7 @@ def apply_script(protocol, connection, config):
         def aimblock_try_complain(self):
             if self.aimbot_heuristic >= self.aimbot_heur_max:
                 if AIMBLOCK_KICK_JERK:
-                    self.on_hack_attempt('Aimbot detected')
+                    self.on_hack_attempt('Trovato aimbot')
                 else:
                     self.aimbot_trywarn()
 
