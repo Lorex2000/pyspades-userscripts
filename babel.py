@@ -92,12 +92,12 @@ def apply_script(protocol, connection, config):
             if self.team is self.protocol.blue_team:
                 if self.world_object.position.x >= 301 and self.world_object.position.x <= 384 \
                     and self.world_object.position.y >= 240 and self.world_object.position.y <= 272:
-                        self.send_chat('You can\'t build near the enemy\'s tower!')
+                        self.send_chat('Non puoi costruire vicino la torre nemica!')
                         return True
             if self.team is self.protocol.green_team:
                 if self.world_object.position.x >= 128 and self.world_object.position.x <= 211 \
                     and self.world_object.position.y >= 240 and self.world_object.position.y <= 272:
-                        self.send_chat('You can\'t build near the enemy\'s tower!')
+                        self.send_chat('Non puoi costruire vicino la torre nemica')
                         return True
             return False
 
@@ -117,26 +117,26 @@ def apply_script(protocol, connection, config):
             if self.team is self.protocol.blue_team:
                 if self.tool is SPADE_TOOL and self.world_object.position.x >= 128 and self.world_object.position.x <= 211 \
                     and self.world_object.position.y >= 240 and self.world_object.position.y <= 272:
-                        self.send_chat('You can\'t destroy your team\'s blocks in this area. Attack the enemy\'s tower!')
+                        self.send_chat('Non puoi distruggere i blocchi del tuo team in quest area. Attacca la torre nemica!')
                         return False
                 if self.world_object.position.x <= 288:
                     if self.tool is WEAPON_TOOL:
-                        self.send_chat('You must be closer to the enemy\'s base to shoot blocks!')
+                        self.send_chat('Devi essere più vicino alla base nemica per sparare ai blocchi!')
                         return False
                     if self.tool is GRENADE_TOOL:
-                        self.send_chat('You must be closer to the enemy\'s base to grenade blocks!')
+                        self.send_chat('Devi essere più vicino alla base nemica per tirare le granate!')
                         return False
             if self.team is self.protocol.green_team:
                 if self.tool is SPADE_TOOL and self.world_object.position.x >= 301 and self.world_object.position.x <= 384 \
                     and self.world_object.position.y >= 240 and self.world_object.position.y <= 272:
-                        self.send_chat('You can\'t destroy your team\'s blocks in this area. Attack the enemy\'s tower!')
+                        self.send_chat('Non puoi distruggere i blocchi del tuo team in quest area. Attacca la torre nemica!')
                         return False
                 if self.world_object.position.x >= 224:
                     if self.tool is WEAPON_TOOL:
-                        self.send_chat('You must be closer to the enemy\'s base to shoot blocks!')
+                        self.send_chat('Devi essere più vicino alla base nemica per sparare ai blocchi!')
                         return False
                     if self.tool is GRENADE_TOOL:
-                        self.send_chat('You must be closer to the enemy\'s base to grenade blocks!')
+                        self.send_chat('Devi essere più vicino alla base nemica per tirare le granate!')
                         return False
             return connection.on_block_destroy(self, x, y, z, mode)
    
