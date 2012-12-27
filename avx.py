@@ -145,7 +145,7 @@ class BitArrayND(BitArray):
         return all((n >= 0 and n < d for n, d in izip(coords, self.shape)))
     
     def neighbors(self, coords):
-        'returns the coordinates of all the valid elements whose coordinates differ from `coords` by +-1 in any one dimension'
+        'restituisce le coordinate di tutti gli elementi validi le cui coordinate differiscono da `coords` di + -1 in qualsiasi dimensione uno'
         if not self.isvalidcoords(coords):
             return
         i = 0
@@ -213,7 +213,7 @@ class AVX(BitArrayND):
         ret._load_attributes(fileobj, cls.avx_magic)
         
         if ret.magic != cls.magic or ret.ver > cls.ver:
-            raise IOError("Not an AVX file")
+            raise IOError("Non e un AVX file")
         
         ret._load_attributes(fileobj, ret.avx_headers_ver[ret.ver])
         
@@ -239,7 +239,7 @@ class AVX(BitArrayND):
         size = fileobj.tell()
         fileobj.seek(pos, 0)
         if size - pos < calcsize(''.join(zip(*attributes)[1])):
-            raise EOFError("Incomplete AVX file.")
+            raise EOFError("AVX file incompleto.")
         
         for attr, fmt in attributes:
             setattr(self, attr, unpack(fmt, fileobj.read(calcsize(fmt)))[0])
