@@ -75,14 +75,14 @@ MAX_SPAWN_DISTANCE = 15.0
 BUILDING_ENABLED = False
 
 if MAX_ROUND_TIME >= 60:
-    MAX_ROUND_TIME_TEXT = '%.2f minutes' % (float(MAX_ROUND_TIME)/60.0)
+    MAX_ROUND_TIME_TEXT = '%.2f minuti' % (float(MAX_ROUND_TIME)/60.0)
 else:
-    MAX_ROUND_TIME_TEXT = str(MAX_ROUND_TIME) + ' seconds'
+    MAX_ROUND_TIME_TEXT = str(MAX_ROUND_TIME) + ' secondi'
 
 @admin
 def coord(connection):
     connection.get_coord = True
-    return 'Spade a block to get its coordinate.'
+    return 'Colpisci con la pala un blocco per le sue coordinate.'
 
 add(coord)
 
@@ -180,7 +180,7 @@ class Gate:
         map = self.protocol_obj.map
         solid, self.color = map.get_point(x, y, z)
         if not solid:
-            raise CustomException('The gate coordinate (%i, %i, %i) is not solid.' % (x, y, z))
+            raise CustomException('Le coordinate (%i, %i, %i) non sono solide.' % (x, y, z))
         self.record_gate(x, y, z)
         self.blocks = minimize_block_line(self.blocks)
     
@@ -365,7 +365,7 @@ def apply_script(protocol, connection, config):
             elif green_count < blue_count:
                 self.arena_win(blue_team)
             else:
-                self.send_chat('Round ends in a tie.')
+                self.send_chat('Il round finisce in pareggio.')
             self.begin_arena_countdown()
 
         def arena_win(self, team, killer = None):
@@ -384,7 +384,7 @@ def apply_script(protocol, connection, config):
                 self.arena_take_flag = True
                 killer.take_flag()
                 killer.capture_flag()
-            self.send_chat(team.name + ' team wins the round!')
+            self.send_chat(team.name + ' team vince il round!')
             self.begin_arena_countdown()
 
         def arena_reset_fog_color(self):
@@ -401,11 +401,11 @@ def apply_script(protocol, connection, config):
             blue_team = self.blue_team
             for team in (self.green_team, self.blue_team):
                 num = get_team_alive_count(team)
-                team.arena_message = '%i player' % num
+                team.arena_message = '%i giocatore' % num
                 if num != 1:
                     team.arena_message += 's'
                 team.arena_message += ' on ' + team.name
-            self.send_chat('%s and %s remain.' % (green_team.arena_message, blue_team.arena_message))
+            self.send_chat('Rimangono %s e %s .' % (green_team.arena_message, blue_team.arena_message))
 
         def on_map_change(self, map):
             extensions = self.map_info.extensions
@@ -492,7 +492,7 @@ def apply_script(protocol, connection, config):
             self.building = False
             self.build_gates()
             self.arena_spawn()
-            self.send_chat('The round will begin in %i seconds.' % SPAWN_ZONE_TIME)
+            self.send_chat('Il round inizierà tra %i secondi.' % SPAWN_ZONE_TIME)
             self.arena_countdown_timers = [reactor.callLater(SPAWN_ZONE_TIME, self.begin_arena)]
             for time in xrange(1, 6):
                 self.arena_countdown_timers.append(reactor.callLater(SPAWN_ZONE_TIME - time, self.send_chat, str(time)))
@@ -507,16 +507,16 @@ def apply_script(protocol, connection, config):
             self.arena_counting_down = False
             for team in (self.green_team, self.blue_team):
                 if team.count() == 0:
-                    self.send_chat('Not enough players on the %s team to begin.' % team.name)
+                    self.send_chat('Non ci sono abbastanza giocatori nel %s team per cominciare.' % team.name)
                     self.begin_arena_countdown()
                     return
             self.arena_running = True
             self.killing = True
             self.building = BUILDING_ENABLED
             self.destroy_gates()
-            self.send_chat('Go!')
+            self.send_chat('Via!')
             if MAX_ROUND_TIME > 0:
-                self.send_chat('There is a time limit of %s for this round.' % MAX_ROUND_TIME_TEXT)
+                self.send_chat('Ce un limite di tempo di %s per questo round.' % MAX_ROUND_TIME_TEXT)
                 self.arena_limit_timer = reactor.callLater(MAX_ROUND_TIME, self.arena_time_limit)
 
         def on_base_spawn(self, x, y, z, base, entity_id):
