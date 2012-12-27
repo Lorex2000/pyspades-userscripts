@@ -121,10 +121,10 @@ def apply_script(protocol, connection, config):
                         return False
                 if self.world_object.position.x <= 288:
                     if self.tool is WEAPON_TOOL:
-                        self.send_chat('Devi essere più vicino alla base nemica per sparare ai blocchi!')
+                        self.send_chat('Devi essere piu vicino alla base nemica per sparare ai blocchi!')
                         return False
                     if self.tool is GRENADE_TOOL:
-                        self.send_chat('Devi essere più vicino alla base nemica per tirare le granate!')
+                        self.send_chat('Devi essere piu vicino alla base nemica per tirare le granate!')
                         return False
             if self.team is self.protocol.green_team:
                 if self.tool is SPADE_TOOL and self.world_object.position.x >= 301 and self.world_object.position.x <= 384 \
@@ -133,10 +133,10 @@ def apply_script(protocol, connection, config):
                         return False
                 if self.world_object.position.x >= 224:
                     if self.tool is WEAPON_TOOL:
-                        self.send_chat('Devi essere più vicino alla base nemica per sparare ai blocchi!')
+                        self.send_chat('Devi essere piu vicino alla base nemica per sparare ai blocchi!')
                         return False
                     if self.tool is GRENADE_TOOL:
-                        self.send_chat('Devi essere più vicino alla base nemica per tirare le granate!')
+                        self.send_chat('Devi essere piu vicino alla base nemica per tirare le granate!')
                         return False
             return connection.on_block_destroy(self, x, y, z, mode)
    
