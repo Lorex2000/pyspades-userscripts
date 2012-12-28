@@ -20,10 +20,10 @@ RATIO_ON_VOTEKICK = True
 IRC_ONLY = False
 
 def ratio(connection, user=None):
-    msg = "You have"
+    msg = "Tu hai"
     if user != None:
         connection = get_player(connection.protocol, user)
-        msg = "%s has"
+        msg = "%s ha"
         if connection not in connection.protocol.players:
             raise KeyError()
         msg %= connection.name
@@ -36,10 +36,10 @@ def ratio(connection, user=None):
     meleekills = connection.ratio_meleekills
     grenadekills = connection.ratio_grenadekills
     
-    msg += " a kill-death ratio of %.2f" % (kills/deaths)
+    msg += " un rapporto uccisioni-morti di %.2f" % (kills/deaths)
     if HEADSHOT_RATIO:
-        msg += ", headshot-death ratio of %.2f" % (headshotkills/deaths)
-    msg += " (%s kills, %s deaths" % (kills, connection.ratio_deaths)
+        msg += ", rapporto headshot-morti di %.2f" % (headshotkills/deaths)
+    msg += " (%s uccisioni, %s morti" % (kills, connection.ratio_deaths)
     if EXTENDED_RATIO:
         msg += ", %s headshot, %s melee, %s grenade" % (headshotkills, meleekills, grenadekills)
     msg += ")."
