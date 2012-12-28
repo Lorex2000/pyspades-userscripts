@@ -15,17 +15,17 @@ import cbc
 import time
 import operator
 
-S_INVALID_MAP_NAME = 'Invalid map name'
-S_ROLLBACK_IN_PROGRESS = 'Rollback in progress'
-S_ROLLBACK_COMMENCED = '{player} commenced a rollback...'
-S_AUTOMATIC_ROLLBACK_PLAYER_NAME = 'Map'
-S_NO_ROLLBACK_IN_PROGRESS = 'No rollback in progress'
-S_ROLLBACK_CANCELLED = 'Rollback cancelled by {player}'
-S_ROLLBACK_ENDED = 'Rollback ended. {result}'
-S_MAP_CHANGED = 'Map was changed'
-S_ROLLBACK_PROGRESS = 'Rollback progress {percent:.0%}'
+S_INVALID_MAP_NAME = 'Nome mappa invalido'
+S_ROLLBACK_IN_PROGRESS = 'Rollback in corso'
+S_ROLLBACK_COMMENCED = '{player} ha avviato un rollback...'
+S_AUTOMATIC_ROLLBACK_PLAYER_NAME = 'Mappa'
+S_NO_ROLLBACK_IN_PROGRESS = 'Non ci sono rollback in corso'
+S_ROLLBACK_CANCELLED = 'Rollback cancellato da {player}'
+S_ROLLBACK_ENDED = 'Rollback finito. {result}'
+S_MAP_CHANGED = 'La mappa è stata cambiata'
+S_ROLLBACK_PROGRESS = 'Rollback in corso {percent:.0%}'
 S_ROLLBACK_COLOR_PASS = 'Rollback color pass {percent:.0%}'
-S_ROLLBACK_TIME_TAKEN = 'Time taken: {seconds:.3}s'
+S_ROLLBACK_TIME_TAKEN = 'Tempo impiegato: {seconds:.3}s'
 
 NON_SURFACE_COLOR = (0, 0, 0)
 
@@ -121,7 +121,7 @@ def apply_script(protocol, connection, config):
             set_color.player_id = 31
             self.send_contained(set_color, save = True)
             old = cur.copy()
-            check_protected = hasattr(protocol, 'protected')
+            check_protected = hasattr(protocol, 'protetto')
             x_count = abs(start_x - end_x)
             for x in xrange(start_x, end_x):
                 block_action.x = x
