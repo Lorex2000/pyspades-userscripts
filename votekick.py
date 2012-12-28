@@ -23,32 +23,32 @@ from commands import name, add, get_player, join_arguments, InvalidPlayer, admin
 
 REQUIRE_REASON = False
 
-S_NO_VOTEKICK = 'No votekick in progress'
-S_DEFAULT_REASON = 'NO REASON GIVEN'
-S_IN_PROGRESS = 'Votekick already in progress'
-S_SELF_VOTEKICK = "You can't votekick yourself"
-S_NOT_ENOUGH_PLAYERS = "There aren't enough players to vote"
-S_VOTEKICK_IMMUNE = "You can't votekick this player"
-S_NOT_YET = "You can't start another votekick yet!"
-S_NEED_REASON = 'You must provide a reason for the votekick'
-S_CANT_CANCEL = "You didn't start the votekick!"
-S_YES = '{player} voted YES'
-S_ENDED = 'Votekick for {victim} has ended. {result}'
-S_RESULT_TIMED_OUT = 'Votekick timed out'
-S_RESULT_CANCELLED = 'Cancelled'
-S_RESULT_BANNED = 'Banned by admin'
-S_RESULT_KICKED = 'Kicked by admin'
-S_RESULT_INSTIGATOR_KICKED = 'Instigator kicked by admin'
-S_RESULT_LEFT = '{victim} left during votekick'
+S_NO_VOTEKICK = 'Non ci sono votekick in corso'
+S_DEFAULT_REASON = 'NESSUNA MOTIVAZIONE'
+S_IN_PROGRESS = 'Votekick gia in corso'
+S_SELF_VOTEKICK = "Non puoi fare un votekick per te"
+S_NOT_ENOUGH_PLAYERS = "Non ci sono abbastanza giocatori per votare"
+S_VOTEKICK_IMMUNE = "Non puoi fare un votekick per questo giocatore"
+S_NOT_YET = "Non puoi far partire un altro votekick!"
+S_NEED_REASON = 'È necessario fornire un motivo per il votekick'
+S_CANT_CANCEL = "Non hai fatto avviare il votekick!"
+S_YES = '{player} vota SI'
+S_ENDED = 'Il votekick per {victim} e finito. {result}'
+S_RESULT_TIMED_OUT = 'Tempo Votekick finito'
+S_RESULT_CANCELLED = 'Cancellato'
+S_RESULT_BANNED = 'Bannato da admin'
+S_RESULT_KICKED = 'Kicked da admin'
+S_RESULT_INSTIGATOR_KICKED = 'Instigator kicked da admin'
+S_RESULT_LEFT = '{victim} left durante il votekick'
 S_RESULT_INSTIGATOR_LEFT = 'Instigator {instigator} left'
 S_RESULT_PASSED = 'Player kicked'
-S_ANNOUNCE_IRC = '* {instigator} started a votekick against player {victim}. ' \
-    'Reason: {reason}'
-S_ANNOUNCE = '{instigator} started a VOTEKICK against {victim}. Say /Y to agree'
-S_ANNOUNCE_SELF = 'You started a votekick against {victim}. Say /CANCEL to ' \
-    'stop it'
-S_UPDATE = '{instigator} is votekicking {victim}. /Y to vote ({needed} left)'
-S_REASON = 'Reason: {reason}'
+S_ANNOUNCE_IRC = '* {instigator} ha avviato un votekick contro giocatore {victim}. ' \
+    'Motivo: {reason}'
+S_ANNOUNCE = '{instigator} ha avviato un VOTEKICK contro giocatore {victim}. Scrivi /Y se sei d accordo'
+S_ANNOUNCE_SELF = 'Tu hai avviato un votekick contro {victim}. Scrivi /CANCEL per ' \
+    'fermarlo'
+S_UPDATE = '{instigator} ha avviato un votekick contro {victim}. /Y per votare ({needed} left)'
+S_REASON = 'Motivo: {reason}'
 
 class VotekickFailure(Exception):
     pass
@@ -61,9 +61,9 @@ def start_votekick(connection, *args):
     player = connection
     
     if protocol.votekick_enabled == False:
-        return "Votekicking disabled"
+        return "Votekicking disabilitato"
     if player.votekick_enabled == False:
-        return "You are not allowed to initiate a votekick."
+        return "Non ti e consentito di avviare un votekick."
     
     if not args:
         if protocol.votekick:
@@ -126,7 +126,7 @@ def togglevotekick(connection, *args):
     except InvalidPlayer:
         player = get_player(protocol, args[0])
     player.votekick_enabled = not player.votekick_enabled
-    return "Votekicking is %s for %s." % (['disabled', 'enabled'][player.votekick_enabled], player.name)
+    return "Votekicking e %s per %s." % (['disabled', 'enabled'][player.votekick_enabled], player.name)
 
 add(start_votekick)
 add(cancel_votekick)
