@@ -50,7 +50,7 @@ def aimbot_match(player, msg):
 @admin
 def badmin(connection, var=None):
     if var == None:
-        return ("@Badmin (r%s): Language Filter(LF) [%s], Blank Votekick Blocker(BV) "
+        return ("@Badmin (r%s): Filtro Lingua(FL) [%s], Blank Votekick Blocker(BV) "
         "[%s], Grief Votekick Protection(GV) [%s], Aimbot Votekick Protection(AV) [%s]" 
         % (BADMIN_VERSION, LANGUAGE_FILTER_ENABLED, BLANK_VOTEKICK_ENABLED, 
         SCORE_GRIEF_ENABLED, SCORE_AIMBOT_ENABLED))
@@ -62,11 +62,11 @@ def investigate(connection, player):
     score = score_grief(connection, player)
     kdr = round(player.ratio_kills/float(max(1,player.ratio_deaths)))
     percent = round(check_percent(player))
-    message = "Results for %s: Grief Score - %s / KDR - %s / Hit Acc. - %s" % (player.name, score, kdr, percent)
+    message = "Risultati per %s: Punteggio Grief - %s / KDR - %s / Hit Acc. - %s" % (player.name, score, kdr, percent)
 add(investigate)
 
 def score_grief(connection, player, time=None): #302 = blue (0), #303 = green (1)
-    print "start score grief"
+    print "Avvio punteggio grief"
     color = connection not in connection.protocol.players and connection.colors
     minutes = float(time or 2)
     if minutes < 0.0:
@@ -85,7 +85,7 @@ def score_grief(connection, player, time=None): #302 = blue (0), #303 = green (1
     enemy_harmed = 0
     print "init values set"
     if len(blocks):
-        print "len blocks = true, blocks found"
+        print "leggi blocchi = vero, trovati blocchi"
         total_blocks = len(blocks)
         info = blocks
         for info in blocks:
@@ -97,7 +97,7 @@ def score_grief(connection, player, time=None): #302 = blue (0), #303 = green (1
                     enemy_blocks+=1
             else:
                 map_blocks+= 1
-        print "second for done"
+        print "secondi per il fatto"
         infos = set(blocks)
         infos.discard(None)
         for name, team in infos:
@@ -107,13 +107,13 @@ def score_grief(connection, player, time=None): #302 = blue (0), #303 = green (1
                 enemy_harmed += 1
         print "third for done"
     else:
-        print "len blocks = false, no blocks found"
+        print "leggi blocchi = falso, non mancano blocchi"
         total_blocks = 0
 
     #heuristic checks start here
     #if they didn't break any blocks at all, they probably aren't griefing.
     if total_blocks == 0:
-        print "no blocks, ending"
+        print "no blocks, fine"
         return 0
     #checks on team blocks destroyed
     if team_blocks > 0 and team_blocks <= 5:
@@ -171,8 +171,8 @@ def apply_script(protocol, connection, config):
     def send_slur_nick(connection):
         badmin_punish(connection, 'kick', 'Being a racist')
 
-    def badmin_punish(connection, punishment='warn', reason = "Being a meany face"):
-        connection.protocol.irc_say("* @Badmin: %s is being punished. Type: %s (Reason: %s)" % (connection.name, punishment, reason))
+    def badmin_punish(connection, punishment='avvertire', reason = "Being a meany face"):
+        connection.protocol.irc_say("* @Badmin: %s e stato punito. Motivo: %s (Reason: %s)" % (connection.name, punishment, reason))
         if punishment == "ban":
             connection.ban('@Badmin: ' + reason, connection.protocol.votekick_ban_duration)
         elif punishment == "kick":
@@ -188,8 +188,8 @@ def apply_script(protocol, connection, config):
     class BadminProtocol(protocol):
         def start_votekick(self, connection, player, reason = None):
             if reason == None and BLANK_VOTEKICK_ENABLED == True:
-                connection.protocol.irc_say("* @Badmin: %s is attempting a blank votekick (against %s)" % (connection.name, player.name))
-                return "@Badmin: You must input a reason for the votekick (/votekick name reason)"
+                connection.protocol.irc_say("* @Badmin: %s sta cercando un votekick vuoto (contro %s)" % (connection.name, player.name))
+                return "@Badmin: E necessario immettere un motivo per il votekick (/votekick name reason)"
             #print "before aimbot check"
             #print player.ratio_kills/float(max(1,player.ratio_deaths))
             if aimbot_match(self, reason) and SCORE_AIMBOT_ENABLED == True:
@@ -198,20 +198,20 @@ def apply_script(protocol, connection, config):
                 percent = round(check_percent(player))
                 #print "score: %s, acc: %s" % (score, percent)
                 if score >= SCORE_AIMBOT_BAN:
-                    badmin_punish(player, "ban", "Suspected Aimbotting (Kicker: %s, KDR: %s, Hit Acc: %s)" % (connection.name, score, percent))
+                    badmin_punish(player, "ban", "Sospetto Aimbot (Kicker: %s, KDR: %s, Hit Acc: %s)" % (connection.name, score, percent))
                     return
                 if score >= SCORE_AIMBOT_KICK:
-                    badmin_punish(player, "kick", "Suspected Aimbotting (Kicker: %s, KDR: %s, Hit Acc: %s)" % (connection.name, score, percent))
+                    badmin_punish(player, "kick", "Sospetto Aimbot (Kicker: %s, KDR: %s, Hit Acc: %s)" % (connection.name, score, percent))
                     return
                 if score >= SCORE_AIMBOT_WARN:
-                    badmin_punish(player, "warn", "People think you're aimbotting! (KDR: %s, Hit Acc: %s)" % (score, percent))
+                    badmin_punish(player, "warn", "Gli altri pensano che sei un aimbot! (KDR: %s, Hit Acc: %s)" % (score, percent))
                     return protocol.start_votekick(self, connection, player, reason)
                 if score >= SCORE_AIMBOT_UNCERTAIN:
                     connection.protocol.irc_say("* @Badmin: Aimbot vote: (KDR: %s, Hit Acc: %s)" % (score, percent))
                     return protocol.start_votekick(self, connection, player, reason)
                 if score < SCORE_AIMBOT_UNCERTAIN:
-                    connection.protocol.irc_say("* @Badmin: I've cancelled an aimbot votekick! Kicker: %s, Kickee: %s, KDR: %s, Hit Acc: %s" % (connection.name, player.name, score, percent))
-                    return "@Badmin: This player is not aimbotting."
+                    connection.protocol.irc_say("* @Badmin: Ho cancellato il votekick! Kicker: %s, Kickee: %s, KDR: %s, Hit Acc: %s" % (connection.name, player.name, score, percent))
+                    return "@Badmin: Questo giocatore non e un aimbot."
                     #print "went too far (aimbot)"
             if grief_match(self, reason) and SCORE_GRIEF_ENABLED == True:
                 #print "made grief check"
@@ -229,8 +229,8 @@ def apply_script(protocol, connection, config):
                     connection.protocol.irc_say("* @Badmin: Grief Score: %s" % score)
                     return protocol.start_votekick(self, connection, player, reason)
                 if score < SCORE_GRIEF_UNCERTAIN:
-                    connection.protocol.irc_say("* @Badmin: I've cancelled a griefing votekick! Kicker: %s, Kickee: %s, Score: %s" % (connection.name, player.name, score))
-                    return "@Badmin: This player has not been griefing."
+                    connection.protocol.irc_say("* @Badmin: Ho cancellato il votekick! Kicker: %s, Kickee: %s, Score: %s" % (connection.name, player.name, score))
+                    return "@Badmin: Questo giocatore non e un griefer."
             return protocol.start_votekick(self, connection, player, reason)
     
     return BadminProtocol, BadminConnection
