@@ -18,7 +18,7 @@ ONE_CTF_MODE = REVERSE_ONE_CTF
 
 # The message to send when a player takes the intel to the wrong base
 # when playing reverse ctf
-REVERSE_ONE_CTF_MESSAGE = 'Take the intel to the enemy base to score.'
+REVERSE_ONE_CTF_MESSAGE = 'Prendi l intel al centro della mappa per segnare un punto.'
 
 def apply_script(protocol, connection, config):
     game_mode = config.get('game_mode', 'ctf')
